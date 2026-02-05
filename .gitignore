@@ -1,0 +1,23 @@
+# --- Build ---
+bin/
+obj/
+
+# --- IDEs ---
+.vs/
+.idea/
+*.sln.iml
+*.DotSettings.user
+*.user
+*.suo
+
+
+# --- VS Code ---
+.vscode/
+
+# --- Mac ---
+.DS_Store
+
+# --- Secrets ---
+appsettings.Development.json
+.env
+# ---  ---
