@@ -23,3 +23,10 @@ obj/
 appsettings.Development.json
 .env
 # ---  ---
+# Reglas extra para forzar ignorado
+Api/bin/
+Api/obj/
+Infrastructure/bin/
+Infrastructure/obj/
+*bin\*
+*obj\*
