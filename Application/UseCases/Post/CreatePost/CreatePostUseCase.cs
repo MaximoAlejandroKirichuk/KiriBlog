@@ -28,7 +28,7 @@ public class CreatePostUseCase
         if(!author.IsAuthor()) throw new UnauthorizedAuthorException("Author not found");
         
         var post = new Domain.Entities.Post
-            (author.IdUser,
+            (author.Id,
             createPostRequest.Title, 
             createPostRequest.Content, 
             createPostRequest.Visibility,

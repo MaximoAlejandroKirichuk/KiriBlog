@@ -23,7 +23,7 @@ public class PostRepository : IPostRepository
 
     public async Task<Domain.Entities.Post?> GetEntityById(Guid idPost)
     {
-        return await _dbContext.Posts.FirstOrDefaultAsync(p => p.IdPost == idPost);
+        return await _dbContext.Posts.FirstOrDefaultAsync(p => p.Id == idPost);
     }
 
     public async Task CreateAsync(Domain.Entities.Post post)

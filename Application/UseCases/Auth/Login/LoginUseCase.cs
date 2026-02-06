@@ -32,7 +32,7 @@ public class LoginUseCase : ILoginUseCase
         
         return new LoginResponseDto
         {
-            UserId = user.IdUser,
+            UserId = user.Id,
             Name = user.Name,
             Email = user.Email,
             Role = user.Role.ToString(),

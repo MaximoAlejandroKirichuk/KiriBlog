@@ -5,7 +5,7 @@ namespace Domain.Entities;
 
 public class Post
 {
-    public Guid IdPost { get; private set; }
+    public Guid Id { get; private set; }
     public Guid IdAuthor { get; private set; }
     public User Author { get; private set; }
     public string Title { get; private set; }
@@ -20,7 +20,7 @@ public class Post
     public Post(Guid idAuthor, string title, string content, Visibility visibility,Language language)
     {
         Validation(title, content);
-        IdPost = Guid.NewGuid();
+        Id = Guid.NewGuid();
         IdAuthor = idAuthor;
         Title = title;
         Content = content;
@@ -42,7 +42,7 @@ public class Post
         if(string.IsNullOrEmpty(title)) throw new PostValidationException("Post title is invalid");;
         if(string.IsNullOrEmpty(content)) throw new PostValidationException("Post content is invalid");
         
-        if(title.Length == 80) throw new PostValidationException("Post title must be less than 80 characters");
+        if(title.Length > 80) throw new PostValidationException("Post title must be less than 80 characters");
         
         
         return true;

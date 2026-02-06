@@ -1,6 +1,7 @@
 using Api.Extensions;
 using Application;
 using Infrastructure;
+using Infrastructure.Persistence;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,5 +36,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+await DataSeeder.SeedAsync(app.Services);
 
 app.Run();
