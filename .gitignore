@@ -30,3 +30,7 @@ Infrastructure/bin/
 Infrastructure/obj/
 *bin\*
 *obj\*
+
+#Postman
+postman/
+.postman/

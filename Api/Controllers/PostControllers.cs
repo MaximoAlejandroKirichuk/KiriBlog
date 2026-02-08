@@ -21,7 +21,7 @@ public class PostControllers : ControllerBase
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Author")]
     public async Task<IActionResult> CreatePost(CreatePostRequest createPostDto)
     {
         await _createPostUseCase.ExecuteAsync(createPostDto);

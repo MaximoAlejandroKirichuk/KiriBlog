@@ -14,8 +14,8 @@ public static class DependencyInjection
         services.AddScoped<ILoginUseCase, LoginUseCase>();
         services.AddScoped<IRegisterUseCase, RegisterUseCase>();
         services.AddScoped<IGetAllPostPublicUseCase, GetAllPostPublicUseCase>();
+        services.AddScoped<ICreatePostUseCase, CreatePostUseCase>();
         
-        services.AddScoped<CreatePostUseCase>();
         return services;
     }
 }

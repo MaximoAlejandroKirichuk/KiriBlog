@@ -2,19 +2,22 @@ using Application.Exceptions.Post;
 using Application.UseCases.Post.CreatePost.Dtos;
 using Domain.Enums;
 using Domain.Exceptions.Post;
+using Domain.Interface;
 using Domain.Interface.Repository;
 
 namespace Application.UseCases.Post.CreatePost;
 
-public class CreatePostUseCase
+public class CreatePostUseCase  : ICreatePostUseCase
 {
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreatePostUseCase(IPostRepository postRepository, IUserRepository userRepository)
+    public CreatePostUseCase(IPostRepository postRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task ExecuteAsync(CreatePostRequest createPostRequest)
@@ -35,5 +38,6 @@ public class CreatePostUseCase
             createPostRequest.Language );
         
         await _postRepository.CreateAsync(post);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

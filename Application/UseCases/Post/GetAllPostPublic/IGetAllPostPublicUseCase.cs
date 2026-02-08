@@ -1,6 +1,8 @@
+using Application.UseCases.Post.GetAllPostPublic.Dtos;
+
 namespace Application.UseCases.Post.GetAllPostPublic;
 
 public interface IGetAllPostPublicUseCase
 {
-    Task<IEnumerable<Domain.Entities.Post>> ExecuteAsync();
+    Task<IEnumerable<PostResponse>> ExecuteAsync();
 }
