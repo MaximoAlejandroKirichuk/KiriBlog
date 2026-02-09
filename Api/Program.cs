@@ -19,6 +19,21 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // 3. Controllers
 builder.Services.AddControllers();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:4321",          // Astro dev
+                "https://tu-frontend.netlify.app" // cuando deployes
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
 
 
@@ -33,8 +48,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(); 
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 await DataSeeder.SeedAsync(app.Services);
