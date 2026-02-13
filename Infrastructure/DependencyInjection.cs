@@ -1,4 +1,5 @@
 using System.Text;
+using Azure.Storage.Blobs;
 using Domain.Interface;
 using Domain.Interface.Common.Security;
 using Domain.Interface.Repository;
@@ -6,6 +7,7 @@ using Infrastructure.Persistence;
 using Infrastructure.Repositories.Post;
 using Infrastructure.Repositories.User;
 using Infrastructure.Security;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -54,7 +56,14 @@ public static class DependencyInjection
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
                 };
             });
-        
+        var connectionString = configuration["AzureBlob:ConnectionString"];
+
+        if (string.IsNullOrEmpty(connectionString))
+            throw new ArgumentNullException("AzureBlob:ConnectionString");
+
+        services.AddSingleton(new BlobServiceClient(connectionString));
+        services.AddScoped<IFileStorageService, AzureBlobStorageService>();
+
         
         return services;
     }

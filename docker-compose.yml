@@ -13,7 +13,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: KiriBlog-azurite
+    ports:
+      - "10000:10000" # Blob
+      - "10001:10001" # Queue
+      - "10002:10002" # Table
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0"
+    volumes:
+      - azurite_data:/data
+
 volumes:
   postgres_data:
-  #run: docker-compose up
-  
+  azurite_data:

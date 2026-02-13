@@ -25,8 +25,8 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins(
-                "http://localhost:4321",          // Astro dev
-                "https://tu-frontend.netlify.app" // cuando deployes
+                "http://localhost:4321" //local    
+                //"https://tu-frontend.netlify.app" //deploy 
             )
             .AllowAnyHeader()
             .AllowAnyMethod();

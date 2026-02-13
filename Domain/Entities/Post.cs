@@ -24,7 +24,7 @@ public class Post
         IdAuthor = idAuthor;
         Title = title;
         Content = content;
-        PostState = PostState.Draft;
+        PostState = PostState.Published;
         Visibility = visibility;
         CreatedAt = DateTime.UtcNow;
         Language = language;
@@ -37,14 +37,12 @@ public class Post
         }
     }
 
-    private bool Validation(string title, string content)
+    private void Validation(string title, string content)
     {
         if(string.IsNullOrEmpty(title)) throw new PostValidationException("Post title is invalid");;
         if(string.IsNullOrEmpty(content)) throw new PostValidationException("Post content is invalid");
         
         if(title.Length > 80) throw new PostValidationException("Post title must be less than 80 characters");
         
-        
-        return true;
     }
 }
