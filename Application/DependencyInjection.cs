@@ -12,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<ILoginUseCase, LoginUseCase>();
-        services.AddScoped<IRegisterUseCase, RegisterUseCase>();
+        services.AddScoped<IRegisterVisitorUseCase, RegisterVisitorUseCase>();
         services.AddScoped<IGetAllPostPublicUseCase, GetAllPostPublicUseCase>();
         services.AddScoped<ICreatePostUseCase, CreatePostUseCase>();
         

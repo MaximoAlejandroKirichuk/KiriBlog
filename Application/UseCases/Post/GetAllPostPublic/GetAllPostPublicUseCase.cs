@@ -11,19 +11,18 @@ public class GetAllPostPublicUseCase : IGetAllPostPublicUseCase
     {
         _postRepository = postRepository;
     }
-    public async Task<IEnumerable<PostResponse>> ExecuteAsync()
+    public async Task<IEnumerable<PostListItemResponse>> ExecuteAsync()
     {
-        var posts = await _postRepository.GetAllPublic(); ;
-        
-        return posts.Select(post => new PostResponse(
+        var posts = await _postRepository.GetAllPublic();
+
+        return posts.Select(post => new PostListItemResponse(
             post.Id,
-            post.IdAuthor,
             post.Title,
-            post.Content,
-            post.PostState.ToString(),
-            post.Visibility.ToString(),
-            post.CreatedAt,
-            post.Language.ToString()
+            post.Content.Length > 200
+                ? post.Content.Substring(0, 200) + "..."
+                : post.Content,
+            post.CreatedAt
         ));
     }
+
 }
