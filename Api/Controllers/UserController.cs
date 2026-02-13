@@ -13,9 +13,9 @@ namespace Api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly ILoginUseCase _loginUseCase;
-    private readonly IRegisterUseCase _registerUseCase;
+    private readonly IRegisterVisitorUseCase _registerUseCase;
 
-    public UserController(ILoginUseCase  loginUseCase, IRegisterUseCase registerUseCase)
+    public UserController(ILoginUseCase  loginUseCase, IRegisterVisitorUseCase registerUseCase)
     {
         _loginUseCase = loginUseCase;
         _registerUseCase = registerUseCase;
@@ -29,7 +29,7 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
-    [HttpPost("register")]
+    [HttpPost("register-visitor")]
     [AllowAnonymous]
     public async Task<IActionResult> Register(RegisterRequestDto dto)
     {

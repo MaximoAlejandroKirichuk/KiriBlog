@@ -7,17 +7,18 @@ using Domain.Interface.Repository;
 
 namespace Application.UseCases.Auth.Register;
 
-public class RegisterUseCase : IRegisterUseCase
+public class RegisterVisitorUseCase : IRegisterVisitorUseCase
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IUnitOfWork _unitOfWork;
-
-    public RegisterUseCase(IUserRepository userRepository, IPasswordHasher passwordHasher,IUnitOfWork unitOfWork)
+    private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    public RegisterVisitorUseCase(IUserRepository userRepository, IPasswordHasher passwordHasher,IUnitOfWork unitOfWork, IJwtTokenGenerator jwtTokenGenerator)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
         _unitOfWork = unitOfWork;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
     public async Task<RegisterResponseDto> ExecuteAsync(RegisterRequestDto registerDto)
     {
@@ -35,12 +36,15 @@ public class RegisterUseCase : IRegisterUseCase
 
         await _userRepository.RegisterAsync(newUserVisitor);
         await _unitOfWork.SaveChangesAsync();
-        
+        var token = _jwtTokenGenerator.Generate(newUserVisitor);
+
+      
         return new RegisterResponseDto
         {
             Name = newUserVisitor.Name,
             LastName = newUserVisitor.LastName,
-            Email = newUserVisitor.Email
+            Email = newUserVisitor.Email,
+            Token = token
         };
     }
 }
