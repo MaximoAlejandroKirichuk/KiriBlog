@@ -5,13 +5,12 @@ services:
     image: postgres:16
     container_name: KiriBlog-postgres
     ports:
-      # Solución al error: Exponemos el puerto 5433 hacia tu Windows/Mac
-      # Internamente en Docker, sigue usando el 5432
       - "15432:5432"
     environment:
-      POSTGRES_DB: KiriBlog_dev
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      # .env
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -23,8 +22,7 @@ services:
     ports:
       - "8090:8080"
     environment:
-      # La API se conecta al contenedor "postgres" por la red interna usando el puerto 5432
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=KiriBlog_dev;Username=postgres;Password=postgres
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - postgres
