@@ -25,8 +25,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins(
-                "http://localhost:4321",          // Astro dev
-                "https://tu-frontend.netlify.app" // cuando deployes
+                "http://localhost:4321" ,          // Astro dev
+                "http://localhost:5268",
+                "https://tu-frontend.netlify.app" //  deploy futuro
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -55,6 +56,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await DataSeeder.SeedAsync(app.Services);
+//await DataSeeder.SeedAsync(app.Services);
 
 app.Run();
