@@ -2,5 +2,5 @@
 
 public interface IGetCommentsByPostUseCase
 {
-    
+    Task<ICollection<GetCommentsByPostResponse>> GetCommentsByPostAsync(GetCommentsByPostRequest request);
 }

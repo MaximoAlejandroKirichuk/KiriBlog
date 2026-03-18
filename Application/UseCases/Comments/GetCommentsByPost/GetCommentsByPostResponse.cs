@@ -1,6 +1,6 @@
 ﻿namespace Application.UseCases.Comments.GetCommentsByPost;
 
-public class GetCommentsByPostRepost
+public class GetCommentsByPostResponse
 {
     
 }
