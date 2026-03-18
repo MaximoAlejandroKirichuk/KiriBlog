@@ -62,4 +62,25 @@ public class CommentRepository: ICommentRepository
             .OrderBy(c => c.CreatedAt)
             .ToListAsync();
     }
+
+    public async Task<Dictionary<Guid, int>> GetRepliesCountByParentIds(List<Guid> parentIds)
+    {
+        if (parentIds.Count == 0)
+        {
+            return new Dictionary<Guid, int>();
+        }
+
+        return await _context.Comments
+            .AsNoTracking()
+            .Where(c => c.ParentCommentId.HasValue
+                        && parentIds.Contains(c.ParentCommentId.Value)
+                        && !c.IsDeleted)
+            .GroupBy(c => c.ParentCommentId!.Value)
+            .Select(g => new
+            {
+                ParentCommentId = g.Key,
+                RepliesCount = g.Count()
+            })
+            .ToDictionaryAsync(x => x.ParentCommentId, x => x.RepliesCount);
+    }
 }
