@@ -3,6 +3,7 @@ using Domain.Interface;
 using Domain.Interface.Common.Security;
 using Domain.Interface.Repository;
 using Infrastructure.Persistence;
+using Infrastructure.Repositories.Comment;
 using Infrastructure.Repositories.Post;
 using Infrastructure.Repositories.User;
 using Infrastructure.Security;
@@ -25,6 +26,7 @@ public static class DependencyInjection
         // 2. Repositories (Implementation)
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         // 3. Security Services (Implementation)

@@ -1,6 +1,65 @@
-﻿namespace Infrastructure.Repositories.Comment;
+﻿using Domain.Interface.Repository;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
-public class CommentRepository
+namespace Infrastructure.Repositories.Comment;
+
+public class CommentRepository: ICommentRepository
 {
-    
+    private readonly ApplicationDbContext _context;
+
+    public CommentRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<IEnumerable<Domain.Entities.Comment>> GetAll()
+    {
+        return await _context.Comments
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<Domain.Entities.Comment?> GetEntityById(Guid id)
+    {
+        return await _context.Comments
+            .FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public async Task CreateAsync(Domain.Entities.Comment comment)
+    {
+         await _context.AddAsync(comment);
+    }
+
+    public Task UpdateAsync(Domain.Entities.Comment comment)
+    {
+        _context.Update(comment);
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(Domain.Entities.Comment post)
+    {
+        _context.Remove(post);
+        return Task.CompletedTask;
+    }
+
+    public async Task<List<Domain.Entities.Comment>> GetCommentsByPost(Guid postId)
+    {
+        return await _context.Comments
+            .Where(c => c.PostId == postId 
+                        && c.ParentCommentId == null 
+                        && !c.IsDeleted)
+            .AsNoTracking()
+            .OrderByDescending(c => c.CreatedAt)
+            .ToListAsync();
+    }
+
+    public async Task<List<Domain.Entities.Comment>> GetRepliesByCommentId(Guid commentId)
+    {
+        return await _context.Comments
+            .Where(c => c.ParentCommentId == commentId && !c.IsDeleted)
+            .AsNoTracking()
+            .OrderBy(c => c.CreatedAt)
+            .ToListAsync();
+    }
 }
