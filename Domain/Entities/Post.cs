@@ -14,7 +14,7 @@ public class Post
     public Visibility Visibility { get;private set; }
     public DateTime CreatedAt { get; private set; }
     public Language Language  { get; private set; }
-
+    public ICollection<Comment> Comments { get; private set; } = new List<Comment>();
     private Post(){} //EF
 
     public Post(Guid idAuthor, string title, string content, Visibility visibility,Language language)
