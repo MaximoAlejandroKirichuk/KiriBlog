@@ -2,5 +2,5 @@
 
 public class GetRepliesByCommentIdRequest
 {
-    
+    public Guid CommentId { get; set; }
 }

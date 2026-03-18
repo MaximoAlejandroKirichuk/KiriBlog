@@ -1,6 +1,18 @@
-﻿namespace Application.UseCases.Comments.GetRepliesByCommentId;
+﻿using Domain.Interface.Repository;
 
-public class GetRepliesByCommentIdUseCase
+namespace Application.UseCases.Comments.GetRepliesByCommentId;
+
+public class GetRepliesByCommentIdUseCase : IGetRepliesByCommentIdUseCase
 {
+    private readonly ICommentRepository _commentaryRepository;
+
+    public GetRepliesByCommentIdUseCase(ICommentRepository commentaryRepository)
+    {
+        _commentaryRepository = commentaryRepository;
+    }
     
+    public Task<GetRepliesByCommentIdResponse> ExecuteAsync(GetRepliesByCommentIdRequest request)
+    {
+        throw new NotImplementedException();
+    }
 }

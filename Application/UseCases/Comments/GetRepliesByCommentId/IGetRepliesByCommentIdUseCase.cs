@@ -2,5 +2,5 @@
 
 public interface IGetRepliesByCommentIdUseCase
 {
-    
+    Task<GetRepliesByCommentIdResponse> ExecuteAsync(GetRepliesByCommentIdRequest request);
 }
