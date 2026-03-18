@@ -2,5 +2,5 @@
 
 public interface ICreateCommentUseCase
 {
-    
+    Task<CreateCommentResponse> ExecuteAsync(CreateCommentRequest request);
 }
