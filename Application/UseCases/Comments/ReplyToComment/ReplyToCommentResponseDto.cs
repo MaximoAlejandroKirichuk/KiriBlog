@@ -1,4 +1,4 @@
-﻿namespace Application.UseCases.Comments;
+﻿namespace Application.UseCases.Comments.ReplyToComment;
 
 public class ReplyToCommentResponseDto
 {

@@ -1,6 +1,7 @@
-﻿namespace Application.UseCases.Comments;
+﻿
+namespace Application.UseCases.Comments.ReplyToComment;
 
-public struct IReplyToCommentUseCase
+public interface IReplyToCommentUseCase
 {
-    
+    Task<ReplyToCommentResponseDto> ExecuteAsync(ReplyToCommentRequestDto request);
 }
