@@ -1,7 +1,6 @@
-﻿
-namespace Application.UseCases.Comments.ReplyToComment;
+﻿namespace Application.UseCases.Comments.ReplyToComment;
 
 public interface IReplyToCommentUseCase
 {
-    Task<ReplyToCommentResponseDto> ExecuteAsync(ReplyToCommentRequestDto request);
+    Task<ReplyToCommentResponseDto> ExecuteAsync(Guid authenticatedUserId, ReplyToCommentRequestDto request);
 }
