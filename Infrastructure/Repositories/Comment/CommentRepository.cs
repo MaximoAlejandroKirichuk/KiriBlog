@@ -1,4 +1,4 @@
-﻿using Domain.Interface.Repository;
+﻿﻿using Domain.Interface.Repository;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -59,7 +59,7 @@ public class CommentRepository: ICommentRepository
         return await _context.Comments
             .Where(c => c.ParentCommentId == commentId && !c.IsDeleted)
             .AsNoTracking()
-            .OrderBy(c => c.CreatedAt)
+            .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
     }
 

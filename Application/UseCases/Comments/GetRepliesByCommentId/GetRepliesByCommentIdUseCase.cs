@@ -1,24 +1,28 @@
-﻿using Domain.Interface.Repository;
+﻿using Domain.Exceptions.Comment;
+using Domain.Interface.Repository;
 
 namespace Application.UseCases.Comments.GetRepliesByCommentId;
 
 public class GetRepliesByCommentIdUseCase : IGetRepliesByCommentIdUseCase
 {
-    private readonly ICommentRepository _commentaryRepository;
+    private readonly ICommentRepository _commentRepository;
 
-    public GetRepliesByCommentIdUseCase(ICommentRepository commentaryRepository)
+    public GetRepliesByCommentIdUseCase(ICommentRepository commentRepository)
     {
-        _commentaryRepository = commentaryRepository;
+        _commentRepository = commentRepository;
     }
-    
+
     public async Task<GetRepliesByCommentIdResponse> ExecuteAsync(GetRepliesByCommentIdRequest request)
     {
-        var replies = await _commentaryRepository.GetRepliesByCommentId(request.CommentId);
+        if (request.CommentId == Guid.Empty)
+            throw new InvalidFormatCommentException("Comment id is required");
+
+        var replies = await _commentRepository.GetRepliesByCommentId(request.CommentId);
         var replyIds = replies.Select(r => r.Id).ToList();
 
-        var repliesCountByParentId = await _commentaryRepository.GetRepliesCountByParentIds(replyIds);
+        var repliesCountByParentId = await _commentRepository.GetRepliesCountByParentIds(replyIds);
 
-        var response = new GetRepliesByCommentIdResponse
+        return new GetRepliesByCommentIdResponse
         {
             Replies = replies.Select(reply => new CommentReplyDto
             {
@@ -29,7 +33,5 @@ public class GetRepliesByCommentIdUseCase : IGetRepliesByCommentIdUseCase
                 RepliesCount = repliesCountByParentId.GetValueOrDefault(reply.Id, 0)
             }).ToList()
         };
-
-        return response;
     }
 }
