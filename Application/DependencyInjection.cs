@@ -1,6 +1,7 @@
 using Application.UseCases.Auth.Login;
 using Application.UseCases.Auth.Register;
 using Application.UseCases.Comments.CreateComment;
+using Application.UseCases.Comments.DeleteComment;
 using Application.UseCases.Comments.GetCommentsByPost;
 using Application.UseCases.Comments.GetRepliesByCommentId;
 using Application.UseCases.Comments.ReplyToComment;
@@ -27,6 +28,7 @@ public static class DependencyInjection
         services.AddScoped<IReplyToCommentUseCase, ReplyToCommentUseCase>();
         services.AddScoped<IGetCommentsByPostUseCase, GetCommentsByPostUseCase>();
         services.AddScoped<IGetRepliesByCommentIdUseCase, GetRepliesByCommentIdUseCase>();
+        services.AddScoped<IDeleteCommentUseCase, DeleteCommentUseCase>();
         return services;
     }
 }
