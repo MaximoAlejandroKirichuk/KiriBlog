@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Comments.CreateComment;
+﻿using Api.Extensions;
+using Application.UseCases.Comments.CreateComment;
 using Application.UseCases.Comments.GetRepliesByCommentId;
 using Application.UseCases.Comments.ReplyToComment;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +9,7 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("api/comments")]
-[Authorize(Roles = "Author, Visitor")]
+[Authorize]
 public class CommentController : ControllerBase
 {
     private readonly ICreateCommentUseCase _createCommentUseCase;
@@ -28,15 +29,21 @@ public class CommentController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateComment([FromBody] CreateCommentRequest request)
     {
-        var response = await _createCommentUseCase.ExecuteAsync(request);
+        if (!User.TryGetUserId(out var authenticatedUserId))
+            return Unauthorized("Invalid or missing user claim");
+
+        var response = await _createCommentUseCase.ExecuteAsync(authenticatedUserId, request);
         return StatusCode(201, response);
     }
 
     [HttpPost("{commentId:guid}/replies")]
     public async Task<IActionResult> ReplyToComment(Guid commentId, [FromBody] ReplyToCommentRequestDto request)
     {
+        if (!User.TryGetUserId(out var authenticatedUserId))
+            return Unauthorized("Invalid or missing user claim");
+
         request.ParentCommentId = commentId;
-        var response = await _replyToCommentUseCase.ExecuteAsync(request);
+        var response = await _replyToCommentUseCase.ExecuteAsync(authenticatedUserId, request);
         return StatusCode(201, response);
     }
     

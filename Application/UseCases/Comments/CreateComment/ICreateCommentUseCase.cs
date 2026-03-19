@@ -1,6 +1,6 @@
-﻿namespace Application.UseCases.Comments.CreateComment;
+﻿﻿namespace Application.UseCases.Comments.CreateComment;
 
 public interface ICreateCommentUseCase
 {
-    Task<CreateCommentResponse> ExecuteAsync(CreateCommentRequest request);
+    Task<CreateCommentResponse> ExecuteAsync(Guid authenticatedUserId, CreateCommentRequest request);
 }

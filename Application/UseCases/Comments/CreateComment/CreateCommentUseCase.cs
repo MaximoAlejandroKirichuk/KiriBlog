@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Exceptions.Comment;
 using Domain.Interface;
 using Domain.Interface.Repository;
 
@@ -15,12 +16,14 @@ public class CreateCommentUseCase : ICreateCommentUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CreateCommentResponse> ExecuteAsync(CreateCommentRequest request)
+    public async Task<CreateCommentResponse> ExecuteAsync(Guid authenticatedUserId, CreateCommentRequest request)
     {
+        ValidateRequest(request, authenticatedUserId);
+        
         var comment = Comment.Create(
-            request.Content,
+            request.Content.Trim(),
             request.PostId,
-            request.UserId
+            authenticatedUserId
         );
 
         await _repo.CreateAsync(comment);
@@ -32,5 +35,17 @@ public class CreateCommentUseCase : ICreateCommentUseCase
             Content = comment.Content,
             CreatedAt = comment.CreatedAt
         };
+    }
+    
+    private static void ValidateRequest(CreateCommentRequest request, Guid authenticatedUserId)
+    {
+        if (authenticatedUserId == Guid.Empty)
+            throw new InvalidFormatCommentException("User id is required");
+
+        if (request.PostId == Guid.Empty)
+            throw new InvalidFormatCommentException("Post id is required");
+
+        if (string.IsNullOrWhiteSpace(request.Content))
+            throw new InvalidFormatCommentException("Comment content cannot be empty");
     }
 }
