@@ -1,7 +1,7 @@
 using Api.Extensions;
 using Application;
 using Infrastructure;
-using Infrastructure.Persistence;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,17 +20,18 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 
 // CORS
+// read app settings origin 
+var corsOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:4321" ,          // Astro dev
-                "http://localhost:5268",
-                "https://tu-frontend.netlify.app" //  deploy futuro
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        if (corsOrigins != null && corsOrigins.Length > 0)
+        {
+            policy.WithOrigins(corsOrigins) 
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
     });
 });
 
