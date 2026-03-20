@@ -39,3 +39,8 @@ La aplicación separa claramente:
 - PostgreSQL
 - JWT Authentication
 
+---
+
+## API Reference
+
+- [`KiriBlog API Reference - Comments.md`](./KiriBlog%20API%20Reference%20-%20Comments.md)
