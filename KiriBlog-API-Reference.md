@@ -403,11 +403,13 @@ Typical JSON shape in ASP.NET APIs (may vary by middleware configuration):
   - `commentId` (guid, required)
 - Query params: none.
 - Body (`ReplyToCommentRequestDto`):
+  - `parentCommentId` (guid, optional; backend overwrites with route `commentId`)
   - `content` (string, required)
 
 **Request JSON example**
 ```json
 {
+  "parentCommentId": "2fb7f0d0-f4f8-4b11-beb8-1b2af00c731f",
   "content": "I have the same question."
 }
 ```
@@ -477,6 +479,7 @@ Typical JSON shape in ASP.NET APIs (may vary by middleware configuration):
 - `id` (guid)
 - `content` (string)
 - `userId` (guid)
+- `authorName` (string)
 - `createdAt` (datetime)
 - `repliesCount` (int)
 - `hasReplies` (bool, computed as `repliesCount > 0`)
@@ -489,6 +492,7 @@ Typical JSON shape in ASP.NET APIs (may vary by middleware configuration):
       "id": "3ef57cf0-5b9d-45dc-8684-af4f2f778f9a",
       "content": "Thanks for the explanation",
       "userId": "2e908928-06ea-4c2c-ae77-3763a367997f",
+      "authorName": "Kiri Dev",
       "createdAt": "2026-03-19T20:45:00Z",
       "repliesCount": 1,
       "hasReplies": true
@@ -540,6 +544,7 @@ Typical JSON shape in ASP.NET APIs (may vary by middleware configuration):
 - `id` (guid)
 - `content` (string)
 - `userId` (guid)
+- `authorName` (string)
 - `createdAt` (datetime)
 - `repliesCount` (int)
 
@@ -551,6 +556,7 @@ Typical JSON shape in ASP.NET APIs (may vary by middleware configuration):
       "id": "2fb7f0d0-f4f8-4b11-beb8-1b2af00c731f",
       "content": "Great article!",
       "userId": "5b6cce42-c6f7-43be-beb0-d9f17473d0a8",
+      "authorName": "Kiri Dev",
       "createdAt": "2026-03-19T20:30:00Z",
       "repliesCount": 3
     }
