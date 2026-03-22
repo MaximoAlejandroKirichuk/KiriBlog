@@ -77,7 +77,7 @@ public class CommentController : ControllerBase
             PostId = postId
         };
 
-        var response = await _getCommentsByPostUseCase.ExecuteAsync(request);
+        GetCommentsByPostResponse response = await _getCommentsByPostUseCase.ExecuteAsync(request);
         return Ok(response);
     }
 

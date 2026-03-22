@@ -1,4 +1,4 @@
-﻿﻿using Domain.Interface.Repository;
+﻿using Domain.Interface.Repository;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,10 +46,11 @@ public class CommentRepository: ICommentRepository
     public async Task<List<Domain.Entities.Comment>> GetCommentsByPost(Guid postId)
     {
         return await _context.Comments
-            .Where(c => c.PostId == postId 
-                        && c.ParentCommentId == null 
-                        && !c.IsDeleted)
             .AsNoTracking()
+            .Include(c => c.User)
+            .Where(c => c.PostId == postId
+                        && c.ParentCommentId == null
+                        && !c.IsDeleted)
             .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
     }
@@ -57,8 +58,9 @@ public class CommentRepository: ICommentRepository
     public async Task<List<Domain.Entities.Comment>> GetRepliesByCommentId(Guid commentId)
     {
         return await _context.Comments
-            .Where(c => c.ParentCommentId == commentId && !c.IsDeleted)
             .AsNoTracking()
+            .Include(c => c.User)
+            .Where(c => c.ParentCommentId == commentId && !c.IsDeleted)
             .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
     }

@@ -1,4 +1,5 @@
-﻿using Domain.Exceptions.Comment;
+﻿using Domain.Entities;
+using Domain.Exceptions.Comment;
 using Domain.Interface.Repository;
 
 namespace Application.UseCases.Comments.GetRepliesByCommentId;
@@ -29,9 +30,20 @@ public class GetRepliesByCommentIdUseCase : IGetRepliesByCommentIdUseCase
                 Id = reply.Id,
                 Content = reply.Content,
                 UserId = reply.UserId,
+                AuthorName = BuildAuthorName(reply.User),
                 CreatedAt = reply.CreatedAt,
                 RepliesCount = repliesCountByParentId.GetValueOrDefault(reply.Id, 0)
             }).ToList()
         };
+    }
+
+    private static string BuildAuthorName(User? user)
+    {
+        if (user is null)
+        {
+            return string.Empty;
+        }
+
+        return $"{user.Name} {user.LastName}".Trim();
     }
 }

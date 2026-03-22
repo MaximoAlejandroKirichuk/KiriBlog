@@ -1,4 +1,5 @@
-﻿using Domain.Exceptions.Comment;
+﻿using Domain.Entities;
+using Domain.Exceptions.Comment;
 using Domain.Interface.Repository;
 
 namespace Application.UseCases.Comments.GetCommentsByPost;
@@ -29,9 +30,20 @@ public class GetCommentsByPostUseCase : IGetCommentsByPostUseCase
                 Id = comment.Id,
                 Content = comment.Content,
                 UserId = comment.UserId,
+                AuthorName = BuildAuthorName(comment.User),
                 CreatedAt = comment.CreatedAt,
                 RepliesCount = repliesCountByParentId.GetValueOrDefault(comment.Id, 0)
             }).ToList()
         };
+    }
+
+    private static string BuildAuthorName(User? user)
+    {
+        if (user is null)
+        {
+            return string.Empty;
+        }
+
+        return $"{user.Name} {user.LastName}".Trim();
     }
 }
