@@ -21,16 +21,19 @@ builder.Services.AddControllers();
 
 // CORS
 // read app settings origin 
-var corsOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>();
+var corsOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>() 
+                  ?? builder.Configuration.GetValue<string>("CorsOrigins")?.Split(',');
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        if (corsOrigins != null && corsOrigins.Length > 0)
+        if (corsOrigins != null && corsOrigins.Any())
         {
-            policy.WithOrigins(corsOrigins) 
+            policy.WithOrigins(corsOrigins.Select(x => x.Trim()).ToArray()) 
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials(); // Agrega esto si usas Cookies/Auth Headers
         }
     });
 });
